@@ -53,10 +53,7 @@
     <p>Student Information Management Page</p>
 
     <a href="<?= site_url('student'); ?>">Home</a>
-
-    <a href="<?= site_url('student/profile'); ?>">
-        Student Profile
-    </a>
+<a href="<?= site_url('student/profile'); ?>">Student Profile</a>
 
 </div>
 
