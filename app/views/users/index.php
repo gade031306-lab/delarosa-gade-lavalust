@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gade's Student Profile</title>
+    <title>Users List</title>
 
     <style>
         * {
@@ -20,13 +20,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 1rem;
+            padding: 1.5rem 1rem;
         }
 
         .container {
             background: #ffffff;
             width: 100%;
-            max-width: 550px;
+            max-width: 800px;
             padding: 2rem 1.5rem;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -39,35 +39,47 @@
             margin-bottom: 1.5rem;
         }
 
-        .info-list {
-            display: flex;
-            flex-direction: column;
+        /* Responsive Table Wrapper */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
         }
 
-        .info {
-            display: flex;
-            flex-direction: column;
-            padding: 0.85rem 0;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 500px; /* Prevents text from crowding on small screens */
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
             border-bottom: 1px solid #e5e7eb;
-            gap: 0.25rem;
+            font-size: 0.95rem;
         }
 
-        .info:last-child {
+        th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        tr:last-child td {
             border-bottom: none;
         }
 
-        .label {
-            font-weight: 600;
-            color: #4b5563;
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.025em;
+        tr:nth-child(even) {
+            background-color: #fbfbfb;
         }
 
-        .value {
-            color: #111827;
-            font-size: 1rem;
-            word-break: break-word;
+        tr:hover {
+            background-color: #f3f4f6;
         }
 
         .nav {
@@ -97,22 +109,13 @@
             transform: scale(0.98);
         }
 
-        /* Responsive Layout for Tablet/Desktop */
-        @media (min-width: 480px) {
+        @media (min-width: 640px) {
             .container {
                 padding: 2.5rem;
             }
 
-            .info {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .label {
-                font-size: 0.95rem;
-                text-transform: none;
-                letter-spacing: normal;
+            h1 {
+                font-size: 1.85rem;
             }
 
             .nav {
@@ -129,38 +132,31 @@
 <body>
 
 <main class="container">
-    <h1>Student Information</h1>
+    <h1>Users List</h1>
 
-    <div class="info-list">
-        <div class="info">
-            <span class="label">Student ID</span>
-            <span class="value"><?= $student_id; ?></span>
-        </div>
-
-        <div class="info">
-            <span class="label">Name</span>
-            <span class="value"><?= $name; ?></span>
-        </div>
-
-        <div class="info">
-            <span class="label">Course</span>
-            <span class="value"><?= $course; ?></span>
-        </div>
-
-        <div class="info">
-            <span class="label">Year Level</span>
-            <span class="value"><?= $year; ?></span>
-        </div>
-
-        <div class="info">
-            <span class="label">Section</span>
-            <span class="value"><?= $section; ?></span>
-        </div>
-
-        <div class="info">
-            <span class="label">Email</span>
-            <span class="value"><?= $email; ?></span>
-        </div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Username</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($users as $user): ?>
+                <tr>
+                    <td><?= $user['id'] ?></td>
+                    <td><?= $user['firstname'] ?></td>
+                    <td><?= $user['lastname'] ?></td>
+                    <td><?= $user['email'] ?></td>
+                    <td><?= $user['username'] ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 
     <nav class="nav">
