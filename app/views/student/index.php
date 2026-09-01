@@ -1,5 +1,7 @@
+```php
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -71,7 +73,6 @@
             transform: scale(0.98);
         }
 
-        /* Larger screens layout */
         @media (min-width: 640px) {
             .container {
                 padding: 3rem 2.5rem;
@@ -95,7 +96,9 @@
 <body>
 
 <main class="container">
+
     <h1>Welcome to Gade's Student Hub</h1>
+
     <p>Student Information Management Page</p>
 
     <nav class="nav-links">
@@ -103,7 +106,9 @@
         <a href="<?= site_url('student/profile'); ?>">Profile</a>
         <a href="<?= site_url('users'); ?>">Users List</a>
     </nav>
+
 </main>
 
 </body>
 </html>
+```

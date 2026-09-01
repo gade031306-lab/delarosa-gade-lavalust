@@ -1,5 +1,7 @@
+```php
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,7 +41,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Responsive Table Wrapper */
         .table-wrapper {
             width: 100%;
             overflow-x: auto;
@@ -52,10 +53,11 @@
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            min-width: 500px; /* Prevents text from crowding on small screens */
+            min-width: 500px;
         }
 
-        th, td {
+        th,
+        td {
             padding: 0.75rem 1rem;
             border-bottom: 1px solid #e5e7eb;
             font-size: 0.95rem;
@@ -132,10 +134,13 @@
 <body>
 
 <main class="container">
+
     <h1>Users List</h1>
 
     <div class="table-wrapper">
+
         <table>
+
             <thead>
                 <tr>
                     <th>ID</th>
@@ -145,25 +150,34 @@
                     <th>Username</th>
                 </tr>
             </thead>
+
             <tbody>
+
                 <?php foreach ($users as $user): ?>
+
                 <tr>
-                    <td><?= $user['id'] ?></td>
-                    <td><?= $user['firstname'] ?></td>
-                    <td><?= $user['lastname'] ?></td>
-                    <td><?= $user['email'] ?></td>
-                    <td><?= $user['username'] ?></td>
+                    <td><?= htmlspecialchars($user['id']) ?></td>
+                    <td><?= htmlspecialchars($user['firstname']) ?></td>
+                    <td><?= htmlspecialchars($user['lastname']) ?></td>
+                    <td><?= htmlspecialchars($user['email']) ?></td>
+                    <td><?= htmlspecialchars($user['username']) ?></td>
                 </tr>
+
                 <?php endforeach; ?>
+
             </tbody>
+
         </table>
+
     </div>
 
     <nav class="nav">
         <a href="<?= site_url('student'); ?>">Home</a>
         <a href="<?= site_url('student/profile'); ?>">Student Profile</a>
     </nav>
+
 </main>
 
 </body>
 </html>
+```
