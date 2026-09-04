@@ -6,7 +6,6 @@ class UsersController extends Controller
     public function __construct()
     {
         parent::__construct();
-
         $this->call->database();
         $this->call->model('UsersModel');
     }
