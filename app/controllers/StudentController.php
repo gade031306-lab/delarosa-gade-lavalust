@@ -7,22 +7,6 @@ class StudentController extends Controller
     {
         parent::__construct();
 
-        // Start session
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        // ==========================================
-        // REQUIRE LOGIN
-        // ==========================================
-
-        if (!isset($_SESSION['user_id'])) {
-
-            redirect('login');
-            exit;
-        }
-
-
         // Load database
         $this->call->database();
 
@@ -31,34 +15,23 @@ class StudentController extends Controller
     }
 
 
-    // ==========================================
+    // ============================================================
     // STUDENT HOME
-    // ==========================================
+    // ============================================================
+
     public function index()
     {
-        /*
-         * The Dashboard is now the actual home page.
-         *
-         * Therefore /student redirects to
-         * /student/profile.
-         */
-
         redirect('student/profile');
     }
 
 
-    // ==========================================
-    // STUDENT PROFILE / DASHBOARD
-    // ==========================================
+    // ============================================================
+    // STUDENT DASHBOARD / PROFILE
+    // ============================================================
+
     public function profile()
     {
-        // Get currently logged-in user's ID
         $user_id = $_SESSION['user_id'];
-
-
-        // ==========================================
-        // GET USER FROM DATABASE
-        // ==========================================
 
         $query = $this->UsersModel->raw(
             "SELECT id, firstname, lastname, email, username
@@ -68,15 +41,10 @@ class StudentController extends Controller
             [$user_id]
         );
 
-
-        // Convert database result to object
         $student = $query->fetch(PDO::FETCH_OBJ);
 
 
-        // ==========================================
-        // USER NO LONGER EXISTS
-        // ==========================================
-
+        // User no longer exists
         if (!$student) {
 
             $_SESSION = [];
@@ -84,18 +52,14 @@ class StudentController extends Controller
             session_destroy();
 
             redirect('login');
+
             exit;
         }
 
 
-        // ==========================================
-        // SEND STUDENT DATA TO VIEW
-        // ==========================================
-
         $data['student'] = $student;
 
 
-        // Load dashboard
         $this->call->view(
             'student/profile',
             $data

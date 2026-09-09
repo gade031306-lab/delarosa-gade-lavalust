@@ -43,26 +43,116 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 |
 */
 /** @var object $router **/
-
-
+// Login page
 $router->get('/', 'AuthController::login');
 
 $router->get('/login', 'AuthController::login');
-$router->post('/login/authenticate', 'AuthController::authenticate');
 
+$router->post(
+    '/login/authenticate',
+    'AuthController::authenticate'
+);
+
+
+// Registration
 $router->get('/register', 'AuthController::register');
-$router->post('/register/store', 'AuthController::store');
 
+$router->post(
+    '/register/store',
+    'AuthController::store'
+);
+
+
+// Logout
 $router->get('/logout', 'AuthController::logout');
 
-$router->get('/student', 'StudentController::index');
-$router->get('/student/profile', 'StudentController::profile');
 
-$router->get('/users', 'UsersController::index');
+// ================================================================
+// AUTHENTICATED ROUTES
+// ================================================================
 
-$router->get('/products', 'ProductController::index');
-$router->get('/products/create', 'ProductController::create');
-$router->post('/products/store', 'ProductController::store');
-$router->get('/products/edit/{id}', 'ProductController::edit');
-$router->post('/products/update/{id}', 'ProductController::update');
-$router->get('/products/delete/{id}', 'ProductController::delete');
+
+// ------------------------------------------------
+// Student Dashboard
+// ------------------------------------------------
+
+$router->get(
+    '/student',
+    'StudentController::index'
+)->middleware('auth');
+
+
+$router->get(
+    '/student/profile',
+    'StudentController::profile'
+)->middleware('auth');
+
+
+// ------------------------------------------------
+// Users
+// ------------------------------------------------
+
+$router->get(
+    '/users',
+    'UsersController::index'
+)->middleware('auth');
+
+
+// ------------------------------------------------
+// Products - READ
+// ------------------------------------------------
+
+$router->get(
+    '/products',
+    'ProductController::index'
+)->middleware('auth');
+
+
+// ------------------------------------------------
+// Products - CREATE PAGE
+// ------------------------------------------------
+
+$router->get(
+    '/products/create',
+    'ProductController::create'
+)->middleware('auth');
+
+
+// ------------------------------------------------
+// Products - CREATE PROCESS
+// ------------------------------------------------
+
+$router->post(
+    '/products/store',
+    'ProductController::store'
+)->middleware('auth');
+
+
+// ------------------------------------------------
+// Products - EDIT PAGE
+// ------------------------------------------------
+
+$router->get(
+    '/products/edit/{id}',
+    'ProductController::edit'
+)->middleware('auth');
+
+
+// ------------------------------------------------
+// Products - UPDATE PROCESS
+// ------------------------------------------------
+
+$router->post(
+    '/products/update/{id}',
+    'ProductController::update'
+)->middleware('auth');
+
+
+// ------------------------------------------------
+// Products - DELETE
+// ------------------------------------------------
+
+$router->get(
+    '/products/delete/{id}',
+    'ProductController::delete'
+)->middleware('auth');
