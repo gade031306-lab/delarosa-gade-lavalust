@@ -12,20 +12,18 @@ class ProductController extends Controller
             session_start();
         }
 
-        // Check if user is logged in
+        // Require login
         if (!isset($_SESSION['user_id'])) {
             redirect('login');
             exit;
         }
 
+        // Database and Model
         $this->call->database();
         $this->call->model('ProductModel');
     }
 
-
-    // =========================
-    // READ - Display Products
-    // =========================
+    // READ
     public function index()
     {
         $products = $this->ProductModel->all();
@@ -35,19 +33,13 @@ class ProductController extends Controller
         $this->call->view('products/index', $data);
     }
 
-
-    // =========================
     // CREATE - Show Form
-    // =========================
     public function create()
     {
         $this->call->view('products/create');
     }
 
-
-    // =========================
-    // CREATE - Save Product
-    // =========================
+    // CREATE - Save
     public function store()
     {
         $data = [
@@ -62,10 +54,7 @@ class ProductController extends Controller
         redirect('products');
     }
 
-
-    // =========================
-    // UPDATE - Show Edit Form
-    // =========================
+    // UPDATE - Show Form
     public function edit($id)
     {
         $product = $this->ProductModel->find($id);
@@ -75,10 +64,7 @@ class ProductController extends Controller
         $this->call->view('products/edit', $data);
     }
 
-
-    // =========================
-    // UPDATE - Save Changes
-    // =========================
+    // UPDATE - Save
     public function update($id)
     {
         $data = [
@@ -93,10 +79,7 @@ class ProductController extends Controller
         redirect('products');
     }
 
-
-    // =========================
     // DELETE
-    // =========================
     public function delete($id)
     {
         $this->ProductModel->delete($id);
