@@ -4,66 +4,314 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Users</title>
+    <title>Users | Student Hub</title>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        h1 {
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #1f2937;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 22px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 13px 15px;
+            margin-bottom: 8px;
+            color: #d1d5db;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+        }
+
+        .sidebar a:hover {
+            background: #374151;
+            color: white;
+        }
+
+        .sidebar a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* MAIN CONTENT */
+        .main {
+            margin-left: 240px;
+            padding: 35px;
+            min-height: 100vh;
+        }
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #6b7280;
+        }
+
+        /* CONTENT CARD */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
             margin-bottom: 20px;
+            color: #111827;
+        }
+
+        /* TABLE */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 700px;
         }
 
-        th, td {
-            border: 1px solid #000;
-            padding: 10px;
+        th,
+        td {
+            padding: 13px 15px;
+            border-bottom: 1px solid #e5e7eb;
             text-align: left;
         }
 
         th {
-            background-color: #f2f2f2;
+            background: #f9fafb;
+            color: #374151;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        tbody tr:hover {
+            background: #f3f4f6;
+        }
+
+        /* USER COUNT */
+        .user-count {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 8px 12px;
+            background: #eff6ff;
+            color: #2563eb;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+                padding: 25px 15px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                padding: 15px;
+            }
+
+            .sidebar h2 {
+                margin-bottom: 15px;
+            }
+
+            .sidebar a {
+                display: inline-block;
+                margin-right: 5px;
+                margin-bottom: 5px;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <h1>User Management</h1>
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
 
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Username</th>
-            </tr>
-        </thead>
+        <h2>🎓 Student Hub</h2>
 
-        <tbody>
+        <a href="<?= site_url('student/profile'); ?>">
+            🏠 Dashboard
+        </a>
 
-            <?php foreach ($users as $user): ?>
+        <a href="<?= site_url('student'); ?>">
+            🎓 Student Home
+        </a>
 
-                <tr>
-                    <td><?= htmlspecialchars($user['id']) ?></td>
-                    <td><?= htmlspecialchars($user['firstname']) ?></td>
-                    <td><?= htmlspecialchars($user['lastname']) ?></td>
-                    <td><?= htmlspecialchars($user['email']) ?></td>
-                    <td><?= htmlspecialchars($user['username']) ?></td>
-                </tr>
+        <a href="<?= site_url('users'); ?>" class="active">
+            👥 Users
+        </a>
 
-            <?php endforeach; ?>
+        <a href="<?= site_url('products'); ?>">
+            📦 Products
+        </a>
 
-        </tbody>
-    </table>
+        <a href="<?= site_url('products/create'); ?>">
+            ➕ Add Product
+        </a>
+
+        <a href="#">
+            ⚙️ Settings
+        </a>
+
+        <a href="#">
+            🚪 Logout
+        </a>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <div class="header">
+            <h1>Users</h1>
+            <p>View registered users in the system.</p>
+        </div>
+
+
+        <div class="card">
+
+            <h2>👥 User Management</h2>
+
+            <div class="user-count">
+                Total Users: <?= count($users); ?>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Username</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <?php if (!empty($users)): ?>
+
+                            <?php foreach ($users as $user): ?>
+
+                                <tr>
+
+                                    <td>
+                                        <?= htmlspecialchars($user['id']); ?>
+                                    </td>
+
+                                    <td>
+                                        <?= htmlspecialchars($user['firstname']); ?>
+                                    </td>
+
+                                    <td>
+                                        <?= htmlspecialchars($user['lastname']); ?>
+                                    </td>
+
+                                    <td>
+                                        <?= htmlspecialchars($user['email']); ?>
+                                    </td>
+
+                                    <td>
+                                        <?= htmlspecialchars($user['username']); ?>
+                                    </td>
+
+                                </tr>
+
+                            <?php endforeach; ?>
+
+                        <?php else: ?>
+
+                            <tr>
+                                <td colspan="5" style="text-align:center; padding:25px;">
+                                    No users found.
+                                </td>
+                            </tr>
+
+                        <?php endif; ?>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
 
 </body>
 </html>
