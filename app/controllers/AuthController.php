@@ -25,9 +25,10 @@ class AuthController extends Controller
     // ==========================================
     public function login()
     {
-        // If already logged in, go to products
+        // If already logged in,
+        // Dashboard becomes the home page
         if (isset($_SESSION['user_id'])) {
-            redirect('products');
+            redirect('student/profile');
             return;
         }
 
@@ -49,12 +50,15 @@ class AuthController extends Controller
             [$username]
         );
 
-        // Get actual user record
+        // Get user record
         $user = $query->fetch(PDO::FETCH_OBJ);
 
         // User does not exist
         if (!$user) {
-            $_SESSION['login_error'] = 'Invalid username or password.';
+
+            $_SESSION['login_error'] =
+                'Invalid username or password.';
+
             redirect('login');
             return;
         }
@@ -66,32 +70,28 @@ class AuthController extends Controller
 
         $valid = false;
 
-        /*
-         * Check if password is already hashed.
-         */
+
+        // Check secure hashed password
         if (password_verify($password, $user->password)) {
 
             $valid = true;
 
         }
 
-        /*
-         * Support your existing account that currently
-         * has a plain-text password.
-         *
-         * Example:
-         * Username: gadefaiyaz
-         * Password: Gadeson!3
-         */
+
+        // ==========================================
+        // SUPPORT OLD PLAIN-TEXT PASSWORD
+        // ==========================================
+
         elseif ($user->password === $password) {
 
-            // Convert plain password to secure hash
+            // Convert old password into secure hash
             $hashed_password = password_hash(
                 $password,
                 PASSWORD_DEFAULT
             );
 
-            // Update password in database
+            // Save hashed password
             $this->UsersModel->update(
                 $user->id,
                 [
@@ -103,9 +103,15 @@ class AuthController extends Controller
         }
 
 
-        // Password is incorrect
+        // ==========================================
+        // INVALID PASSWORD
+        // ==========================================
+
         if (!$valid) {
-            $_SESSION['login_error'] = 'Invalid username or password.';
+
+            $_SESSION['login_error'] =
+                'Invalid username or password.';
+
             redirect('login');
             return;
         }
@@ -115,20 +121,25 @@ class AuthController extends Controller
         // CREATE LOGIN SESSION
         // ==========================================
 
-        $_SESSION['user_id'] = $user->id;
+        $_SESSION['user_id'] =
+            $user->id;
 
-        $_SESSION['username'] = $user->username;
+        $_SESSION['username'] =
+            $user->username;
 
-        $_SESSION['firstname'] = $user->firstname;
+        $_SESSION['firstname'] =
+            $user->firstname;
 
-        $_SESSION['lastname'] = $user->lastname;
+        $_SESSION['lastname'] =
+            $user->lastname;
 
 
         // ==========================================
         // LOGIN SUCCESS
+        // DASHBOARD IS HOME PAGE
         // ==========================================
 
-        redirect('products');
+        redirect('student/profile');
     }
 
 
@@ -137,9 +148,10 @@ class AuthController extends Controller
     // ==========================================
     public function register()
     {
-        // Already logged in
+        // If already logged in
         if (isset($_SESSION['user_id'])) {
-            redirect('products');
+
+            redirect('student/profile');
             return;
         }
 
@@ -152,17 +164,23 @@ class AuthController extends Controller
     // ==========================================
     public function store()
     {
-        $firstname = $this->io->post('firstname');
+        $firstname =
+            $this->io->post('firstname');
 
-        $lastname = $this->io->post('lastname');
+        $lastname =
+            $this->io->post('lastname');
 
-        $email = $this->io->post('email');
+        $email =
+            $this->io->post('email');
 
-        $username = $this->io->post('username');
+        $username =
+            $this->io->post('username');
 
-        $password = $this->io->post('password');
+        $password =
+            $this->io->post('password');
 
-        $confirm_password = $this->io->post('confirm_password');
+        $confirm_password =
+            $this->io->post('confirm_password');
 
 
         // ==========================================
@@ -175,7 +193,6 @@ class AuthController extends Controller
                 'Passwords do not match.';
 
             redirect('register');
-
             return;
         }
 
@@ -184,10 +201,11 @@ class AuthController extends Controller
         // CHECK USERNAME
         // ==========================================
 
-        $query_username = $this->UsersModel->raw(
-            "SELECT * FROM users WHERE username = ? LIMIT 1",
-            [$username]
-        );
+        $query_username =
+            $this->UsersModel->raw(
+                "SELECT * FROM users WHERE username = ? LIMIT 1",
+                [$username]
+            );
 
         $existing_username =
             $query_username->fetch(PDO::FETCH_OBJ);
@@ -199,7 +217,6 @@ class AuthController extends Controller
                 'Username already exists.';
 
             redirect('register');
-
             return;
         }
 
@@ -208,10 +225,11 @@ class AuthController extends Controller
         // CHECK EMAIL
         // ==========================================
 
-        $query_email = $this->UsersModel->raw(
-            "SELECT * FROM users WHERE email = ? LIMIT 1",
-            [$email]
-        );
+        $query_email =
+            $this->UsersModel->raw(
+                "SELECT * FROM users WHERE email = ? LIMIT 1",
+                [$email]
+            );
 
         $existing_email =
             $query_email->fetch(PDO::FETCH_OBJ);
@@ -223,7 +241,6 @@ class AuthController extends Controller
                 'Email already exists.';
 
             redirect('register');
-
             return;
         }
 
@@ -232,10 +249,11 @@ class AuthController extends Controller
         // HASH PASSWORD
         // ==========================================
 
-        $hashed_password = password_hash(
-            $password,
-            PASSWORD_DEFAULT
-        );
+        $hashed_password =
+            password_hash(
+                $password,
+                PASSWORD_DEFAULT
+            );
 
 
         // ==========================================
@@ -244,16 +262,20 @@ class AuthController extends Controller
 
         $data = [
 
-            'firstname' => $firstname,
+            'firstname' =>
+                $firstname,
 
-            'lastname' => $lastname,
+            'lastname' =>
+                $lastname,
 
-            'email' => $email,
+            'email' =>
+                $email,
 
-            'username' => $username,
+            'username' =>
+                $username,
 
-            'password' => $hashed_password
-
+            'password' =>
+                $hashed_password
         ];
 
 
@@ -261,7 +283,7 @@ class AuthController extends Controller
 
 
         // ==========================================
-        // SUCCESS MESSAGE
+        // REGISTRATION SUCCESS
         // ==========================================
 
         $_SESSION['register_success'] =
@@ -277,7 +299,7 @@ class AuthController extends Controller
     // ==========================================
     public function logout()
     {
-        // Remove all session variables
+        // Clear session
         $_SESSION = [];
 
         // Destroy session
