@@ -7,11 +7,25 @@ class ProductController extends Controller
     {
         parent::__construct();
 
+        // Start session
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Check if user is logged in
+        if (!isset($_SESSION['user_id'])) {
+            redirect('login');
+            exit;
+        }
+
         $this->call->database();
         $this->call->model('ProductModel');
     }
 
-    // READ
+
+    // =========================
+    // READ - Display Products
+    // =========================
     public function index()
     {
         $products = $this->ProductModel->all();
@@ -21,13 +35,19 @@ class ProductController extends Controller
         $this->call->view('products/index', $data);
     }
 
-    // CREATE - Show form
+
+    // =========================
+    // CREATE - Show Form
+    // =========================
     public function create()
     {
         $this->call->view('products/create');
     }
 
-    // CREATE - Save product
+
+    // =========================
+    // CREATE - Save Product
+    // =========================
     public function store()
     {
         $data = [
@@ -42,7 +62,10 @@ class ProductController extends Controller
         redirect('products');
     }
 
-    // EDIT - Show edit form
+
+    // =========================
+    // UPDATE - Show Edit Form
+    // =========================
     public function edit($id)
     {
         $product = $this->ProductModel->find($id);
@@ -52,7 +75,10 @@ class ProductController extends Controller
         $this->call->view('products/edit', $data);
     }
 
-    // UPDATE - Save changes
+
+    // =========================
+    // UPDATE - Save Changes
+    // =========================
     public function update($id)
     {
         $data = [
@@ -67,7 +93,10 @@ class ProductController extends Controller
         redirect('products');
     }
 
+
+    // =========================
     // DELETE
+    // =========================
     public function delete($id)
     {
         $this->ProductModel->delete($id);

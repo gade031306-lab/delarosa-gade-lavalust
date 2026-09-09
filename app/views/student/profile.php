@@ -13,13 +13,21 @@
             padding: 0;
         }
 
+        html {
+            overflow-x: hidden;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background: #f4f6f8;
             color: #333;
+            overflow-x: hidden;
         }
 
-        /* SIDEBAR */
+        /* =========================
+           SIDEBAR
+        ========================= */
+
         .sidebar {
             position: fixed;
             left: 0;
@@ -29,6 +37,7 @@
             background: #1f2937;
             color: white;
             padding: 25px 15px;
+            z-index: 1000;
         }
 
         .sidebar h2 {
@@ -57,7 +66,28 @@
             color: white;
         }
 
-        /* MAIN */
+        /* =========================
+           MOBILE HEADER
+        ========================= */
+
+        .mobile-header {
+            display: none;
+        }
+
+        .menu-button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 9px 13px;
+            border-radius: 7px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
         .main {
             margin-left: 240px;
             padding: 35px;
@@ -78,12 +108,15 @@
             color: #6b7280;
         }
 
-        /* PROFILE CARD */
+        /* =========================
+           PROFILE
+        ========================= */
+
         .profile-card {
             background: white;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             max-width: 800px;
         }
 
@@ -111,9 +144,9 @@
 
         .value {
             color: #4b5563;
+            word-break: break-word;
         }
 
-        /* QUICK ACTIONS */
         .actions {
             margin-top: 25px;
             display: flex;
@@ -127,23 +160,72 @@
             color: white;
             text-decoration: none;
             border-radius: 7px;
-            transition: background 0.2s ease;
         }
 
         .button:hover {
             background: #1d4ed8;
         }
 
-        /* MOBILE */
-        @media (max-width: 600px) {
+        /* =========================
+           PHONE
+        ========================= */
+
+        @media (max-width: 768px) {
+
             .sidebar {
-                position: relative;
+                position: fixed;
+                top: 60px;
+                left: 0;
                 width: 100%;
                 height: auto;
+                max-height: 0;
+                overflow: hidden;
+                padding: 0 15px;
+                transition: max-height 0.3s ease;
+            }
+
+            .sidebar.open {
+                max-height: 500px;
+                padding: 15px;
+            }
+
+            .sidebar h2 {
+                display: none;
+            }
+
+            .sidebar a {
+                margin-bottom: 6px;
+            }
+
+            .mobile-header {
+                display: flex;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 60px;
+                background: #1f2937;
+                color: white;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 15px;
+                z-index: 1100;
+            }
+
+            .mobile-header h2 {
+                font-size: 18px;
             }
 
             .main {
                 margin-left: 0;
+                padding: 85px 18px 25px;
+            }
+
+            .header h1 {
+                font-size: 25px;
+            }
+
+            .profile-card {
                 padding: 20px;
             }
 
@@ -151,14 +233,33 @@
                 grid-template-columns: 1fr;
                 gap: 5px;
             }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .button {
+                text-align: center;
+                width: 100%;
+            }
         }
     </style>
 </head>
 
 <body>
 
+    <!-- MOBILE HEADER -->
+    <header class="mobile-header">
+        <h2>🎓 Student Hub</h2>
+
+        <button class="menu-button" onclick="toggleMenu()">
+            ☰
+        </button>
+    </header>
+
+
     <!-- SIDEBAR -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
 
         <h2>🎓 Student Hub</h2>
 
@@ -186,21 +287,18 @@
             ⚙️ Settings
         </a>
 
-        <a href="#">
-            🚪 Logout
-        </a>
+        <a href="<?= site_url('logout'); ?>">🚪 Logout</a>
 
     </aside>
 
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN -->
     <main class="main">
 
         <div class="header">
             <h1>Dashboard</h1>
             <p>Welcome to your Student Hub.</p>
         </div>
-
 
         <div class="profile-card">
 
@@ -248,7 +346,6 @@
                 </div>
             </div>
 
-
             <div class="actions">
 
                 <a href="<?= site_url('student'); ?>" class="button">
@@ -268,6 +365,13 @@
         </div>
 
     </main>
+
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("sidebar").classList.toggle("open");
+        }
+    </script>
 
 </body>
 </html>

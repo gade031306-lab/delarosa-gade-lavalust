@@ -13,13 +13,17 @@
             padding: 0;
         }
 
+        html {
+            overflow-x: hidden;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background: #f4f6f8;
             color: #333;
+            overflow-x: hidden;
         }
 
-        /* SIDEBAR */
         .sidebar {
             position: fixed;
             left: 0;
@@ -29,6 +33,7 @@
             background: #1f2937;
             color: white;
             padding: 25px 15px;
+            z-index: 1000;
         }
 
         .sidebar h2 {
@@ -57,7 +62,20 @@
             color: white;
         }
 
-        /* MAIN */
+        .mobile-header {
+            display: none;
+        }
+
+        .menu-button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 9px 13px;
+            border-radius: 7px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
         .main {
             margin-left: 240px;
             padding: 35px;
@@ -78,13 +96,12 @@
             color: #6b7280;
         }
 
-        /* FORM CARD */
         .card {
             background: white;
             max-width: 800px;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .card h2 {
@@ -137,6 +154,7 @@
             text-decoration: none;
             cursor: pointer;
             font-size: 14px;
+            text-align: center;
         }
 
         .update {
@@ -157,16 +175,67 @@
             background: #4b5563;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
+
             .sidebar {
-                position: relative;
+                position: fixed;
+                top: 60px;
+                left: 0;
                 width: 100%;
                 height: auto;
+                max-height: 0;
+                overflow: hidden;
+                padding: 0 15px;
+                transition: max-height 0.3s ease;
+            }
+
+            .sidebar.open {
+                max-height: 500px;
+                padding: 15px;
+            }
+
+            .sidebar h2 {
+                display: none;
+            }
+
+            .mobile-header {
+                display: flex;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 60px;
+                background: #1f2937;
+                color: white;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 15px;
+                z-index: 1100;
+            }
+
+            .mobile-header h2 {
+                font-size: 18px;
             }
 
             .main {
                 margin-left: 0;
+                padding: 85px 18px 25px;
+            }
+
+            .header h1 {
+                font-size: 25px;
+            }
+
+            .card {
                 padding: 20px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
             }
         }
     </style>
@@ -174,8 +243,16 @@
 
 <body>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+    <header class="mobile-header">
+        <h2>🎓 Student Hub</h2>
+
+        <button class="menu-button" onclick="toggleMenu()">
+            ☰
+        </button>
+    </header>
+
+
+    <aside class="sidebar" id="sidebar">
 
         <h2>🎓 Student Hub</h2>
 
@@ -203,14 +280,11 @@
             ⚙️ Settings
         </a>
 
-        <a href="#">
-            🚪 Logout
-        </a>
+        <a href="<?= site_url('logout'); ?>">🚪 Logout</a>
 
     </aside>
 
 
-    <!-- MAIN -->
     <main class="main">
 
         <div class="header">
@@ -218,15 +292,13 @@
             <p>Update the information of this product.</p>
         </div>
 
-
         <div class="card">
 
             <h2>✏️ Product Information</h2>
 
             <form
                 action="<?= site_url('products/update/' . $product['id']); ?>"
-                method="POST"
-            >
+                method="POST">
 
                 <div class="form-group">
 
@@ -239,11 +311,9 @@
                         id="product_name"
                         name="product_name"
                         value="<?= htmlspecialchars($product['product_name']); ?>"
-                        required
-                    >
+                        required>
 
                 </div>
-
 
                 <div class="form-group">
 
@@ -258,7 +328,6 @@
 
                 </div>
 
-
                 <div class="form-group">
 
                     <label for="price">
@@ -272,11 +341,9 @@
                         step="0.01"
                         min="0"
                         value="<?= htmlspecialchars($product['price']); ?>"
-                        required
-                    >
+                        required>
 
                 </div>
-
 
                 <div class="form-group">
 
@@ -290,11 +357,9 @@
                         name="quantity"
                         min="0"
                         value="<?= htmlspecialchars($product['quantity']); ?>"
-                        required
-                    >
+                        required>
 
                 </div>
-
 
                 <div class="buttons">
 
@@ -317,6 +382,13 @@
         </div>
 
     </main>
+
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("sidebar").classList.toggle("open");
+        }
+    </script>
 
 </body>
 </html>
