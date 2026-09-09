@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gade's Student Hub</title>
+
+    <title>Student Home | Student Hub</title>
 
     <style>
         * {
@@ -15,79 +14,119 @@
         }
 
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f4f6f8;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
             color: #333;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
         }
 
-        .container {
-            background: #ffffff;
-            width: 100%;
-            max-width: 500px;
-            padding: 2.5rem 1.5rem;
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #1f2937;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 22px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 13px 15px;
+            margin-bottom: 8px;
+            color: #d1d5db;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+        }
+
+        .sidebar a:hover {
+            background: #374151;
+            color: white;
+        }
+
+        .sidebar a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 240px;
+            padding: 35px;
+            min-height: 100vh;
+        }
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 30px;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #6b7280;
+        }
+
+        /* WELCOME CARD */
+        .card {
+            background: white;
+            padding: 40px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            text-align: center;
+            max-width: 800px;
         }
 
-        h1 {
-            font-size: 1.6rem;
-            color: #1a1a1a;
-            margin-bottom: 0.5rem;
+        .card h2 {
+            font-size: 25px;
+            margin-bottom: 15px;
+            color: #111827;
         }
 
-        p {
-            color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 2rem;
+        .card p {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 25px;
         }
 
-        .nav-links {
+        .buttons {
             display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
-        a {
-            display: block;
-            width: 100%;
-            padding: 0.85rem 1rem;
+        .button {
+            padding: 11px 18px;
             background: #2563eb;
-            color: #ffffff;
+            color: white;
             text-decoration: none;
-            font-weight: 500;
-            border-radius: 8px;
-            transition: background 0.2s ease, transform 0.1s ease;
+            border-radius: 7px;
         }
 
-        a:hover {
+        .button:hover {
             background: #1d4ed8;
         }
 
-        a:active {
-            transform: scale(0.98);
-        }
-
-        @media (min-width: 640px) {
-            .container {
-                padding: 3rem 2.5rem;
+        @media (max-width: 600px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
             }
 
-            h1 {
-                font-size: 1.85rem;
-            }
-
-            .nav-links {
-                flex-direction: row;
-            }
-
-            a {
-                flex: 1;
+            .main {
+                margin-left: 0;
+                padding: 20px;
             }
         }
     </style>
@@ -95,20 +134,79 @@
 
 <body>
 
-<main class="container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
 
-    <h1>Welcome to Gade's Student Hub</h1>
+        <h2>🎓 Student Hub</h2>
 
-    <p>Student Information Management Page</p>
+        <a href="<?= site_url('student/profile'); ?>">
+            🏠 Dashboard
+        </a>
 
-    <nav class="nav-links">
-        <a href="<?= site_url('student'); ?>">Home</a>
-        <a href="<?= site_url('student/profile'); ?>">Profile</a>
-        <a href="<?= site_url('users'); ?>">Users List</a>
-    </nav>
+        <a href="<?= site_url('student'); ?>" class="active">
+            🎓 Student Home
+        </a>
 
-</main>
+        <a href="<?= site_url('users'); ?>">
+            👥 Users
+        </a>
+
+        <a href="<?= site_url('products'); ?>">
+            📦 Products
+        </a>
+
+        <a href="<?= site_url('products/create'); ?>">
+            ➕ Add Product
+        </a>
+
+        <a href="#">
+            ⚙️ Settings
+        </a>
+
+        <a href="#">
+            🚪 Logout
+        </a>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <div class="header">
+            <h1>Student Home</h1>
+            <p>Welcome to Gade's Student Hub.</p>
+        </div>
+
+        <div class="card">
+
+            <h2>🎓 Welcome!</h2>
+
+            <p>
+                Welcome to the Student Hub. Use the navigation menu
+                on the left side to access your dashboard, users,
+                products, and other available features.
+            </p>
+
+            <div class="buttons">
+
+                <a href="<?= site_url('student/profile'); ?>" class="button">
+                    🏠 View Dashboard
+                </a>
+
+                <a href="<?= site_url('users'); ?>" class="button">
+                    👥 View Users
+                </a>
+
+                <a href="<?= site_url('products'); ?>" class="button">
+                    📦 View Products
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
 
 </body>
 </html>
-

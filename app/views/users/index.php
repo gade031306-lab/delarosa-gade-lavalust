@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users List</title>
+
+    <title>Users | Student Hub</title>
 
     <style>
         * {
@@ -15,36 +14,98 @@
         }
 
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f4f6f8;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
             color: #333;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem 1rem;
         }
 
-        .container {
-            background: #ffffff;
-            width: 100%;
-            max-width: 800px;
-            padding: 2rem 1.5rem;
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #1f2937;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 22px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 13px 15px;
+            margin-bottom: 8px;
+            color: #d1d5db;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+        }
+
+        .sidebar a:hover {
+            background: #374151;
+            color: white;
+        }
+
+        .sidebar a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 240px;
+            padding: 35px;
+            min-height: 100vh;
+        }
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 30px;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #6b7280;
+        }
+
+        /* CARD */
+        .card {
+            background: white;
             border-radius: 12px;
+            padding: 25px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
-        h1 {
-            font-size: 1.6rem;
-            color: #1a1a1a;
-            text-align: center;
-            margin-bottom: 1.5rem;
+        .card h2 {
+            margin-bottom: 20px;
+            color: #111827;
         }
 
+        .user-count {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 8px 12px;
+            background: #eff6ff;
+            color: #2563eb;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* TABLE */
         .table-wrapper {
             width: 100%;
             overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
             border: 1px solid #e5e7eb;
             border-radius: 8px;
         }
@@ -52,80 +113,49 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            text-align: left;
-            min-width: 500px;
+            min-width: 700px;
         }
 
         th,
         td {
-            padding: 0.75rem 1rem;
+            padding: 13px 15px;
             border-bottom: 1px solid #e5e7eb;
-            font-size: 0.95rem;
+            text-align: left;
         }
 
         th {
-            background-color: #f9fafb;
-            font-weight: 600;
+            background: #f9fafb;
             color: #374151;
+            font-size: 13px;
             text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
         }
 
-        tr:last-child td {
+        td {
+            font-size: 14px;
+        }
+
+        tbody tr:last-child td {
             border-bottom: none;
         }
 
-        tr:nth-child(even) {
-            background-color: #fbfbfb;
+        tbody tr:nth-child(even) {
+            background: #fafafa;
         }
 
-        tr:hover {
-            background-color: #f3f4f6;
+        tbody tr:hover {
+            background: #f3f4f6;
         }
 
-        .nav {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            margin-top: 2rem;
-        }
-
-        a {
-            display: block;
-            text-align: center;
-            padding: 0.85rem 1rem;
-            background: #2563eb;
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: 500;
-            border-radius: 8px;
-            transition: background 0.2s ease, transform 0.1s ease;
-        }
-
-        a:hover {
-            background: #1d4ed8;
-        }
-
-        a:active {
-            transform: scale(0.98);
-        }
-
-        @media (min-width: 640px) {
-            .container {
-                padding: 2.5rem;
+        @media (max-width: 600px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
             }
 
-            h1 {
-                font-size: 1.85rem;
-            }
-
-            .nav {
-                flex-direction: row;
-            }
-
-            a {
-                flex: 1;
+            .main {
+                margin-left: 0;
+                padding: 20px;
             }
         }
     </style>
@@ -133,51 +163,107 @@
 
 <body>
 
-<main class="container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
 
-    <h1>Users List</h1>
+        <h2>🎓 Student Hub</h2>
 
-    <div class="table-wrapper">
+        <a href="<?= site_url('student/profile'); ?>">
+            🏠 Dashboard
+        </a>
 
-        <table>
+        <a href="<?= site_url('student'); ?>">
+            🎓 Student Home
+        </a>
 
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Username</th>
-                </tr>
-            </thead>
+        <a href="<?= site_url('users'); ?>" class="active">
+            👥 Users
+        </a>
 
-            <tbody>
+        <a href="<?= site_url('products'); ?>">
+            📦 Products
+        </a>
 
-                <?php foreach ($users as $user): ?>
+        <a href="<?= site_url('products/create'); ?>">
+            ➕ Add Product
+        </a>
 
-                <tr>
-                    <td><?= htmlspecialchars($user['id']) ?></td>
-                    <td><?= htmlspecialchars($user['firstname']) ?></td>
-                    <td><?= htmlspecialchars($user['lastname']) ?></td>
-                    <td><?= htmlspecialchars($user['email']) ?></td>
-                    <td><?= htmlspecialchars($user['username']) ?></td>
-                </tr>
+        <a href="#">
+            ⚙️ Settings
+        </a>
 
-                <?php endforeach; ?>
+        <a href="#">
+            🚪 Logout
+        </a>
 
-            </tbody>
+    </aside>
 
-        </table>
 
-    </div>
+    <!-- MAIN -->
+    <main class="main">
 
-    <nav class="nav">
-        <a href="<?= site_url('student'); ?>">Home</a>
-        <a href="<?= site_url('student/profile'); ?>">Student Profile</a>
-    </nav>
+        <div class="header">
+            <h1>Users</h1>
+            <p>View registered users in the system.</p>
+        </div>
 
-</main>
+        <div class="card">
+
+            <h2>👥 User Management</h2>
+
+            <div class="user-count">
+                Total Users: <?= count($users); ?>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Username</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <?php if (!empty($users)): ?>
+
+                            <?php foreach ($users as $user): ?>
+
+                                <tr>
+                                    <td><?= htmlspecialchars($user['id']); ?></td>
+                                    <td><?= htmlspecialchars($user['firstname']); ?></td>
+                                    <td><?= htmlspecialchars($user['lastname']); ?></td>
+                                    <td><?= htmlspecialchars($user['email']); ?></td>
+                                    <td><?= htmlspecialchars($user['username']); ?></td>
+                                </tr>
+
+                            <?php endforeach; ?>
+
+                        <?php else: ?>
+
+                            <tr>
+                                <td colspan="5" style="text-align:center; padding:25px;">
+                                    No users found.
+                                </td>
+                            </tr>
+
+                        <?php endif; ?>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
 
 </body>
 </html>
-
