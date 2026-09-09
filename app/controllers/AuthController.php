@@ -27,45 +27,42 @@ class AuthController extends Controller
     }
 
     // LOGIN PROCESS
-    public function authenticate()
-    {
-        $username = $this->io->post('username');
-        $password = $this->io->post('password');
+   // LOGIN PROCESS
+public function authenticate()
+{
+    $username = $this->io->post('username');
+    $password = $this->io->post('password');
 
-        $user = $this->UsersModel->raw(
-            "SELECT * FROM users WHERE username = ? LIMIT 1",
-            [$username]
-        );
+    $query = $this->UsersModel->raw(
+        "SELECT * FROM users WHERE username = ? LIMIT 1",
+        [$username]
+    );
 
-        if (!$user) {
-            $_SESSION['login_error'] = 'Invalid username or password.';
-            redirect('login');
-            return;
-        }
+    // Get the actual row from PDOStatement
+    $user = $query->fetch(PDO::FETCH_OBJ);
 
-        if (is_array($user)) {
-            $user = $user[0] ?? null;
-        }
-
-        if (!$user) {
-            $_SESSION['login_error'] = 'Invalid username or password.';
-            redirect('login');
-            return;
-        }
-
-        if (!password_verify($password, $user->password)) {
-            $_SESSION['login_error'] = 'Invalid username or password.';
-            redirect('login');
-            return;
-        }
-
-        $_SESSION['user_id'] = $user->id;
-        $_SESSION['username'] = $user->username;
-        $_SESSION['firstname'] = $user->firstname;
-        $_SESSION['lastname'] = $user->lastname;
-
-        redirect('products');
+    if (!$user) {
+        $_SESSION['login_error'] = 'Invalid username or password.';
+        redirect('login');
+        return;
     }
+
+    // Verify password
+    if (!password_verify($password, $user->password)) {
+        $_SESSION['login_error'] = 'Invalid username or password.';
+        redirect('login');
+        return;
+    }
+
+    // Store user information in session
+    $_SESSION['user_id'] = $user->id;
+    $_SESSION['username'] = $user->username;
+    $_SESSION['firstname'] = $user->firstname;
+    $_SESSION['lastname'] = $user->lastname;
+
+    // Go to Product Management
+    redirect('products');
+}
 
     // REGISTER PAGE
     public function register()
