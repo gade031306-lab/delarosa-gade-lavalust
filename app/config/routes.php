@@ -51,3 +51,4 @@ $router->get('/student', 'StudentController::index');
 
 $router->get('/student/profile', 'StudentController::profile');
 $router->get('/users', 'UsersController::index');
+$router->get('/products', 'ProductController@index');
