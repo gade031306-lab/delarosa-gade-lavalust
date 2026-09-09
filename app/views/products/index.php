@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products List</title>
+
+    <title>Product Management</title>
 
     <style>
         * {
@@ -14,164 +15,357 @@
         }
 
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f4f6f8;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
             color: #333;
-            min-height: 100vh;
+        }
+
+        .layout {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem 1rem;
+            min-height: 100vh;
         }
 
-        .container {
-            background: #ffffff;
-            width: 100%;
-            max-width: 1000px;
-            padding: 2rem 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 240px;
+            background: #1e293b;
+            color: white;
+            padding: 25px 15px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
         }
 
-        h1 {
-            font-size: 1.6rem;
-            color: #1a1a1a;
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 35px;
         }
+
+        .menu-title {
+            font-size: 12px;
+            color: #94a3b8;
+            margin: 20px 10px 8px;
+            text-transform: uppercase;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* MAIN CONTENT */
+
+        .main {
+            margin-left: 240px;
+            width: calc(100% - 240px);
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+        }
+
+        .add-button {
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .add-button:hover {
+            background: #1d4ed8;
+        }
+
+        /* CARD */
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .card-header {
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            font-size: 20px;
+        }
+
+        .card-header p {
+            color: #64748b;
+            margin-top: 5px;
+        }
+
+        /* TABLE */
 
         .table-wrapper {
-            width: 100%;
             overflow-x: auto;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            text-align: left;
-            min-width: 700px;
         }
 
         th,
         td {
-            padding: 0.75rem 1rem;
+            padding: 14px;
             border-bottom: 1px solid #e5e7eb;
-            font-size: 0.95rem;
+            text-align: left;
         }
 
         th {
-            background-color: #f9fafb;
-            font-weight: 600;
-            color: #374151;
+            background: #f8fafc;
+            font-size: 13px;
             text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        tr:nth-child(even) {
-            background-color: #fbfbfb;
+            color: #475569;
         }
 
         tr:hover {
-            background-color: #f3f4f6;
+            background: #f8fafc;
         }
 
-        .nav {
+        /* ACTION BUTTONS */
+
+        .actions {
             display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            margin-top: 2rem;
+            gap: 8px;
         }
 
-        a {
-            display: block;
-            text-align: center;
-            padding: 0.85rem 1rem;
-            background: #2563eb;
-            color: #ffffff;
+        .edit {
+            background: #f59e0b;
+            color: white;
+            padding: 7px 12px;
+            border-radius: 5px;
             text-decoration: none;
-            font-weight: 500;
-            border-radius: 8px;
+            font-size: 13px;
         }
 
-        a:hover {
-            background: #1d4ed8;
+        .delete {
+            background: #dc2626;
+            color: white;
+            padding: 7px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 13px;
         }
 
-        @media (min-width: 640px) {
-            .container {
-                padding: 2.5rem;
+        .edit:hover {
+            background: #d97706;
+        }
+
+        .delete:hover {
+            background: #b91c1c;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                width: 200px;
             }
 
-            h1 {
-                font-size: 1.85rem;
+            .main {
+                margin-left: 200px;
+                width: calc(100% - 200px);
+                padding: 20px;
             }
 
-            .nav {
-                flex-direction: row;
-            }
-
-            a {
-                flex: 1;
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
             }
         }
     </style>
+
 </head>
 
 <body>
 
-<main class="container">
+<div class="layout">
 
-    <h1>Products List</h1>
+    <!-- SIDEBAR -->
 
-    <div class="table-wrapper">
+    <aside class="sidebar">
 
-        <table>
+        <div class="logo">
+            Product System
+        </div>
 
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Product Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Created At</th>
-                </tr>
-            </thead>
+        <div class="menu-title">
+            Main
+        </div>
 
-            <tbody>
+        <a href="<?= site_url('products'); ?>" class="active">
+            📦 Products
+        </a>
 
-                <?php foreach ($products as $product): ?>
+        <a href="<?= site_url('products/create'); ?>">
+            ➕ Add Product
+        </a>
 
-                <tr>
-                    <td><?= htmlspecialchars($product['id']) ?></td>
+        <div class="menu-title">
+            System
+        </div>
 
-                    <td><?= htmlspecialchars($product['product_name']) ?></td>
+        <a href="#">
+            👤 Users
+        </a>
 
-                    <td><?= htmlspecialchars($product['description']) ?></td>
+        <a href="#">
+            ⚙️ Settings
+        </a>
 
-                    <td>₱<?= htmlspecialchars($product['price']) ?></td>
+        <a href="#">
+            🚪 Logout
+        </a>
 
-                    <td><?= htmlspecialchars($product['quantity']) ?></td>
+    </aside>
 
-                    <td><?= htmlspecialchars($product['created_at']) ?></td>
-                </tr>
 
-                <?php endforeach; ?>
+    <!-- MAIN CONTENT -->
 
-            </tbody>
+    <main class="main">
 
-        </table>
+        <div class="topbar">
 
-    </div>
+            <div>
+                <h1>Products</h1>
+            </div>
 
-</main>
+            <a href="<?= site_url('products/create'); ?>" class="add-button">
+                + Add Product
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h2>Product Management</h2>
+
+                <p>
+                    Manage your products, inventory, prices and quantities.
+                </p>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Product Name</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <?php foreach ($products as $product): ?>
+
+                        <tr>
+
+                            <td>
+                                <?= htmlspecialchars($product['id']) ?>
+                            </td>
+
+                            <td>
+                                <?= htmlspecialchars($product['product_name']) ?>
+                            </td>
+
+                            <td>
+                                <?= htmlspecialchars($product['description']) ?>
+                            </td>
+
+                            <td>
+                                ₱<?= htmlspecialchars($product['price']) ?>
+                            </td>
+
+                            <td>
+                                <?= htmlspecialchars($product['quantity']) ?>
+                            </td>
+
+                            <td>
+                                <?= htmlspecialchars($product['created_at']) ?>
+                            </td>
+
+                            <td>
+
+                                <div class="actions">
+
+                                    <a
+                                        href="<?= site_url('products/edit/' . $product['id']); ?>"
+                                        class="edit">
+                                        Edit
+                                    </a>
+
+                                    <a
+                                        href="<?= site_url('products/delete/' . $product['id']); ?>"
+                                        class="delete"
+                                        onclick="return confirm('Are you sure you want to delete this product?');">
+                                        Delete
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    <?php endforeach; ?>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
 
 </body>
+
 </html>
