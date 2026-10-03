@@ -7,83 +7,106 @@ class ProductController extends Controller
     {
         parent::__construct();
 
-        // Start session
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        // Require login
-        if (!isset($_SESSION['user_id'])) {
-            redirect('login');
-            exit;
-        }
-
-        // Database and Model
         $this->call->database();
         $this->call->model('ProductModel');
     }
 
-    // READ
+    // GET /products
     public function index()
     {
+        $this->api->require_method('GET');
+
         $products = $this->ProductModel->all();
 
-        $data['products'] = $products;
-
-        $this->call->view('products/index', $data);
+        $this->api->respond($products);
     }
 
-    // CREATE - Show Form
-    public function create()
+    // GET /products/{id}
+    public function show($id)
     {
-        $this->call->view('products/create');
+        $this->api->require_method('GET');
+
+        $product = $this->ProductModel->find($id);
+
+        if (!$product) {
+            $this->api->respond_error('Product not found', 404);
+        }
+
+        $this->api->respond($product);
     }
 
-    // CREATE - Save
+    // POST /products
     public function store()
     {
+        $this->api->require_method('POST');
+
+        $input = $this->api->body();
+
+        if (
+            empty($input['product_name']) ||
+            !isset($input['description']) ||
+            !isset($input['price']) ||
+            !isset($input['quantity'])
+        ) {
+            $this->api->respond_error('All product fields are required', 400);
+        }
+
         $data = [
-            'product_name' => $this->io->post('product_name'),
-            'description'  => $this->io->post('description'),
-            'price'        => $this->io->post('price'),
-            'quantity'     => $this->io->post('quantity')
+            'product_name' => $input['product_name'],
+            'description'  => $input['description'],
+            'price'        => $input['price'],
+            'quantity'     => $input['quantity']
         ];
 
         $this->ProductModel->insert($data);
 
-        redirect('products');
+        $this->api->respond([
+            'message' => 'Product created successfully'
+        ], 201);
     }
 
-    // UPDATE - Show Form
-    public function edit($id)
-    {
-        $product = $this->ProductModel->find($id);
-
-        $data['product'] = $product;
-
-        $this->call->view('products/edit', $data);
-    }
-
-    // UPDATE - Save
+    // PUT /products/{id}
     public function update($id)
     {
+        $this->api->require_method('PUT');
+
+        $product = $this->ProductModel->find($id);
+
+        if (!$product) {
+            $this->api->respond_error('Product not found', 404);
+        }
+
+        $input = $this->api->body();
+
         $data = [
-            'product_name' => $this->io->post('product_name'),
-            'description'  => $this->io->post('description'),
-            'price'        => $this->io->post('price'),
-            'quantity'     => $this->io->post('quantity')
+            'product_name' => $input['product_name'] ?? $product->product_name,
+            'description'  => $input['description'] ?? $product->description,
+            'price'        => $input['price'] ?? $product->price,
+            'quantity'     => $input['quantity'] ?? $product->quantity
         ];
 
         $this->ProductModel->update($id, $data);
 
-        redirect('products');
+        $this->api->respond([
+            'message' => 'Product updated successfully'
+        ]);
     }
 
-    // DELETE
+    // DELETE /products/{id}
     public function delete($id)
     {
+        $this->api->require_method('DELETE');
+
+        $product = $this->ProductModel->find($id);
+
+        if (!$product) {
+            $this->api->respond_error('Product not found', 404);
+        }
+
         $this->ProductModel->delete($id);
 
-        redirect('products');
+        $this->api->respond([
+            'message' => 'Product deleted successfully'
+        ]);
     }
 }

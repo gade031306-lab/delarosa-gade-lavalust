@@ -43,10 +43,13 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 |
 */
 /** @var object $router **/
-// Login page
-$router->get('/', 'AuthController::login');
+// JSON health response for the deployed API
+$router->get('/', 'ProductApiController::health');
 
-$router->get('/login', 'AuthController::login');
+$router->get(
+    '/login',
+    'AuthController::login'
+);
 
 $router->post(
     '/login/authenticate',
@@ -55,7 +58,10 @@ $router->post(
 
 
 // Registration
-$router->get('/register', 'AuthController::register');
+$router->get(
+    '/register',
+    'AuthController::register'
+);
 
 $router->post(
     '/register/store',
@@ -64,13 +70,15 @@ $router->post(
 
 
 // Logout
-$router->get('/logout', 'AuthController::logout');
+$router->get(
+    '/logout',
+    'AuthController::logout'
+);
 
 
 // ================================================================
-// AUTHENTICATED ROUTES
+// AUTHENTICATED WEB ROUTES
 // ================================================================
-
 
 // ------------------------------------------------
 // Student Dashboard
@@ -80,7 +88,6 @@ $router->get(
     '/student',
     'StudentController::index'
 )->middleware('auth');
-
 
 $router->get(
     '/student/profile',
@@ -99,60 +106,136 @@ $router->get(
 
 
 // ------------------------------------------------
-// Products - READ
+// Products - WEB CRUD
 // ------------------------------------------------
 
+// Product List
 $router->get(
     '/products',
     'ProductController::index'
 )->middleware('auth');
 
-
-// ------------------------------------------------
-// Products - CREATE PAGE
-// ------------------------------------------------
-
+// Create Product Page
 $router->get(
     '/products/create',
     'ProductController::create'
 )->middleware('auth');
 
-
-// ------------------------------------------------
-// Products - CREATE PROCESS
-// ------------------------------------------------
-
+// Create Product
 $router->post(
     '/products/store',
     'ProductController::store'
 )->middleware('auth');
 
-
-// ------------------------------------------------
-// Products - EDIT PAGE
-// ------------------------------------------------
-
+// Edit Product Page
 $router->get(
     '/products/edit/{id}',
     'ProductController::edit'
 )->middleware('auth');
 
-
-// ------------------------------------------------
-// Products - UPDATE PROCESS
-// ------------------------------------------------
-
+// Update Product
 $router->post(
     '/products/update/{id}',
     'ProductController::update'
 )->middleware('auth');
 
-
-// ------------------------------------------------
-// Products - DELETE
-// ------------------------------------------------
-
+// Delete Product
 $router->get(
     '/products/delete/{id}',
     'ProductController::delete'
 )->middleware('auth');
+
+
+// ================================================================
+// PRODUCT API ROUTES
+// ================================================================
+
+// Token authentication for browser and API clients
+$router->post(
+    '/api/auth/login',
+    'AuthApiController::login'
+);
+
+$router->post(
+    '/api/auth/register',
+    'AuthApiController::register'
+);
+
+$router->post(
+    '/api/auth/refresh',
+    'AuthApiController::refresh'
+);
+
+$router->post(
+    '/api/auth/logout',
+    'AuthApiController::logout'
+);
+
+// Get all products
+$router->get(
+    '/api/products',
+    'ProductApiController::index'
+);
+
+// Get single product
+$router->get(
+    '/api/products/{id}',
+    'ProductApiController::show'
+);
+
+// Create product
+$router->post(
+    '/api/products',
+    'ProductApiController::store'
+);
+
+// Update product
+$router->put(
+    '/api/products/{id}',
+    'ProductApiController::update'
+);
+
+$router->patch(
+    '/api/products/{id}',
+    'ProductApiController::update'
+);
+
+// Delete product
+$router->delete(
+    '/api/products/{id}',
+    'ProductApiController::delete'
+);
+
+
+// ================================================================
+// MIGRATION ROUTES
+// ================================================================
+$router->get(
+    'create-migration/{migration_class}',
+    'MigrationController::create_migration'
+);
+
+$router->get(
+    'migrate',
+    'MigrationController::migrate'
+);
+
+$router->get(
+    'rollback',
+    'MigrationController::rollback'
+);
+
+$router->get(
+    'rollback-all',
+    'MigrationController::rollback_all'
+);
+
+$router->get(
+    'refresh',
+    'MigrationController::refresh'
+);
+
+$router->get(
+    'status',
+    'MigrationController::status'
+);
