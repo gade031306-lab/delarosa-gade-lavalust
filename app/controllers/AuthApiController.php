@@ -9,6 +9,12 @@ class AuthApiController extends Controller
 
         $this->call->database();
         $this->call->model('UsersModel');
+        $this->call->library('api');
+    }
+
+    public function options()
+    {
+        $this->api->respond([], 204);
     }
 
     public function login()

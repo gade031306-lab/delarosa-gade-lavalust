@@ -9,6 +9,9 @@
 vendor/
 app/vendor/
 composer.lock
+node_modules/
+frontend/dist/
+.vercel/
 
 # Cache & Logs
 runtime/*

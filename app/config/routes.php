@@ -171,6 +171,14 @@ $router->post(
     'AuthApiController::logout'
 );
 
+// CORS preflight for cross-origin browser clients.
+$router->options('/api/auth/login', 'AuthApiController::options');
+$router->options('/api/auth/register', 'AuthApiController::options');
+$router->options('/api/auth/refresh', 'AuthApiController::options');
+$router->options('/api/auth/logout', 'AuthApiController::options');
+$router->options('/api/products', 'ProductApiController::options');
+$router->options('/api/products/{id}', 'ProductApiController::options');
+
 // Get all products
 $router->get(
     '/api/products',

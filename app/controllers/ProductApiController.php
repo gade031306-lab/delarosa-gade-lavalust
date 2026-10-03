@@ -9,6 +9,7 @@ class ProductApiController extends Controller
 
         $this->call->database();
         $this->call->model('ProductModel');
+        $this->call->library('api');
     }
 
     // GET /
@@ -25,6 +26,11 @@ class ProductApiController extends Controller
             ],
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         exit;
+    }
+
+    public function options()
+    {
+        $this->api->respond([], 204);
     }
 
     // GET /api/products

@@ -283,3 +283,42 @@ LavaLust Framework is open-source software licensed under the **[MIT License](ht
 - **GitHub Repository:** [https://github.com/ronmarasigan/lavalust](https://github.com/ronmarasigan/lavalust)
 - **Documentation:** [https://lavalust.netlify.app](https://lavalust.netlify.app)
 - **Report an Issue:** [https://github.com/ronmarasigan/lavalust/issues](https://github.com/ronmarasigan/lavalust/issues)
+
+---
+
+## Product Management Lab
+
+This repository contains a LavaLust API and a React/Vite client for the product CRUD activity.
+
+### Run locally
+
+1. Configure the backend `.env` with `APP_ENV=development`, `DB_HOST`, `DB_PORT`, `DB_USERNAME`, `DB_PASSWORD`, `DB_DATABASE`, `JWT_SECRET`, and `REFRESH_TOKEN_KEY`. Generate independent JWT secrets with `php lava jwt:generate`.
+2. Apply the database migrations with `php lava migration run`.
+3. Start LavaLust with `php lava serve`.
+4. In `frontend`, copy `.env.example` to `.env`, install dependencies with `npm install`, and run `npm run dev`.
+
+The API is available at `http://127.0.0.1:3000`; the Vite client reads its API base address from `VITE_API_URL`.
+
+### API endpoints
+
+| Method | Endpoint | Authentication |
+|---|---|---|
+| POST | `/api/auth/register` | Public |
+| POST | `/api/auth/login` | Public |
+| POST | `/api/auth/refresh` | Refresh token in JSON body |
+| POST | `/api/auth/logout` | Bearer access token and refresh token |
+| GET | `/api/products` | Bearer access token |
+| GET | `/api/products/{id}` | Bearer access token |
+| POST | `/api/products` | Bearer access token |
+| PUT or PATCH | `/api/products/{id}` | Bearer access token |
+| DELETE | `/api/products/{id}` | Bearer access token |
+
+Product requests use JSON. The products API returns JSON arrays/objects and JSON error responses. The root URL (`/`) returns a JSON health response. HTTP migration routes are intended for local development only; production migrations should be run from the Render shell/CLI.
+
+### Deployment
+
+- **Render:** Deploy the LavaLust repository using its Dockerfile. Set `APP_ENV=production`, `DB_HOST`, `DB_PORT`, `DB_USERNAME`, `DB_PASSWORD`, `DB_DATABASE`, `JWT_SECRET`, `REFRESH_TOKEN_KEY`, and `FRONTEND_ORIGIN` in the Render service environment. `FRONTEND_ORIGIN` must be the exact deployed Vercel origin (for example, `https://your-project.vercel.app`).
+- **Vercel:** Import this repository and set the project root directory to `frontend`. Add `VITE_API_URL` with the Render API base URL (for example, `https://your-api.onrender.com`, without `/api` at the end).
+- Keep database credentials and token secrets only in local ignored `.env` files or deployment environment settings. Never put secrets in frontend variables; Vite variables are public in the browser bundle.
+
+After setting the Render database environment variables, run `php lava migration run` from the Render shell before testing registration and product operations.
