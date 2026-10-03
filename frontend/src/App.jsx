@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
-const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
+const API_URL = (
+  import.meta.env.VITE_API_URL || 'https://delarosa-gade.onrender.com'
+).replace(/\/+$/, '');
 const EMPTY_PRODUCT = {
   product_name: '',
   description: '',
