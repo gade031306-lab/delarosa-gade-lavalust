@@ -12,7 +12,7 @@ class ProductApiController extends Controller
         $this->call->library('api');
     }
 
-    // GET /
+    // GET /health
     public function health()
     {
         header('Content-Type: application/json; charset=utf-8');

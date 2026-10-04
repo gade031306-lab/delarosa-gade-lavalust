@@ -131,3 +131,78 @@ td strong { display: block; font-size: .83rem; }
   .row-actions { flex-direction: column; gap: 4px; }
   .field-row { grid-template-columns: 1fr; }
 }
+
+body {
+  background:
+    radial-gradient(ellipse at 12% 5%, rgba(207, 220, 195, .35), transparent 35%),
+    #f5f6f2;
+}
+
+.welcome-panel {
+  background:
+    radial-gradient(ellipse at 88% 16%, rgba(205, 218, 164, .15), transparent 30%),
+    linear-gradient(145deg, #315d4b 0%, #244b3a 100%);
+}
+
+.auth-area {
+  background: rgba(255, 255, 255, .46);
+}
+
+.auth-card {
+  border: 1px solid rgba(226, 231, 222, .88);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .82);
+  padding: 34px;
+  box-shadow: 0 22px 60px rgba(39, 61, 47, .08);
+}
+
+.form-stack input, .form-stack textarea {
+  border-color: #dfe5dc;
+  border-radius: 10px;
+  background: #fcfdfa;
+}
+
+.button {
+  border-radius: 10px;
+}
+
+.button.primary {
+  box-shadow: 0 6px 14px rgba(49, 93, 75, .15);
+}
+
+.dashboard {
+  min-height: 100vh;
+}
+
+.topbar {
+  border-bottom-color: #e2e6df;
+}
+
+.card {
+  border-radius: 15px;
+  box-shadow: 0 12px 34px rgba(34, 52, 43, .055);
+}
+
+.stat-card {
+  border-radius: 12px;
+}
+
+tbody tr {
+  transition: background .16s ease;
+}
+
+tbody tr:hover {
+  background: #fbfcfa;
+}
+
+.link-button:focus-visible, .button:focus-visible {
+  outline: 3px solid rgba(49, 93, 75, .28);
+  outline-offset: 3px;
+}
+
+@media (max-width: 520px) {
+  .auth-card {
+    border-radius: 15px;
+    padding: 25px 20px;
+  }
+}

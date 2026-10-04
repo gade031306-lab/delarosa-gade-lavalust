@@ -313,7 +313,7 @@ The API is available at `http://127.0.0.1:3000`; the Vite client reads its API b
 | PUT or PATCH | `/api/products/{id}` | Bearer access token |
 | DELETE | `/api/products/{id}` | Bearer access token |
 
-Product requests use JSON. The products API returns JSON arrays/objects and JSON error responses. The root URL (`/`) returns a JSON health response. HTTP migration routes are intended for local development only; production migrations should be run from the Render shell/CLI.
+Product requests use JSON. The products API returns JSON arrays/objects and JSON error responses. The root URL (`/`) provides an API overview, and `/health` returns the machine-readable JSON health response. HTTP migration routes are intended for local development only; production migrations should be run from the Render shell/CLI.
 
 ### Deployment
 

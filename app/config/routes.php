@@ -43,8 +43,9 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 |
 */
 /** @var object $router **/
-// JSON health response for the deployed API
-$router->get('/', 'ProductApiController::health');
+// API landing page and machine-readable health check
+$router->get('/', 'Welcome::index');
+$router->get('/health', 'ProductApiController::health');
 
 $router->get(
     '/login',
